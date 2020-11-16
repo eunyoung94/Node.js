@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<style>
+    form button{
+        background-color: darkgray;
+        color:black;
+    }
+    form input{
+        background-color: greenyellow;
+        
+    }
+</style>
+<!-- jQuery문을 수행할 수 있도록 해주는 코드 -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script >
+    /*
+$() 함수는 선택된 HTML 요소를 제이쿼리에서 이용할 수 있는 형태로 생성해줍니다.
+$() 함수의 인수로는 HTML 태그 이름뿐만 아니라, CSS 선택자를 전달하여 특정 HTML 요소를 선택할 수 있습니다.
+이러한 $()함수를 통해 생성된 요소를 제이쿼리 객체(jQuery Object)라고 합니다.
+제이쿼리는 이렇게 생성된 제이쿼리 객체의 메소드를 사용하여 여러 동작을 설정할 수 있습니다.
+*/ 
+$(function(){
+// 버튼이벤트 구현, jquery는 css의 선택자를 따른다. 
+    $("form button").on("click",function(){
+        checkValue();
+    })
+});
+
+//유효성 체크 함수 
+// .val()은 양식(form)의 값을 가져오거나 값을 설정하는 메소드입니다
+function checkValue(){
+    if($("form input[name='m_name' ]").val()==""){
+        alert("id를 입력해주세요");
+    }else if($("form input[name='m_pass' ]").val()==""){
+        alert("password를 입력해주세요");
+    }else{
+        //위의 if문을 만나지 않았다는 것은 제대로 입력했다는 것임. 즉, 유효한 값이라는것
+        // .attr()은 요소(element)의 속성(attribute)의 값을 가져오거나 속성을 추가합니다. 
+        $("form").attr({
+            action:"/login",
+            method:"post"  //post or get 방식으로 전송하겠다는 의미 양이 많고 보안을 해야한다면 post / 보안과 관련없으면get
+        });
+        $("form").submit();//전송;
+    }
+}
+</script>
+</head>
+<body>
+    <!--Form태그 ? 전송시 그 범위를 설정할 수 있는 양식의 태그
+    id,name 공통점: 문서내의 dom 요소간 구분
+    차이점 : id중복허용x ; name은 중복허용 가능 
+    서버전송시, 변수 역할을 해주는 것은 오직 name만이 가능하다. -->
+
+    <form>
+        <input type="text" name="m_name " placeholder="아이디입력">
+        <input type="password" name="m_pass " placeholder="비밀번호입력">
+        <!-- html5에서 등장한 아래의 button 태그는 form안에 둘 경우에 자동으로 submit이 발생한다. -->
+        <button type="button">전송</button>
+    </form>
+</body>
+</html>

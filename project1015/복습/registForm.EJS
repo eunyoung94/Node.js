@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<!-- 
+    EJS 템플릿엔진,
+    사용법 : 명령 프롬프트에서 프로젝트 폴더로 이동 후 npm install ejs --save
+    템플릿 엔진이란, 템플릿을 읽어 엔진의 문법과 설정에 따라서 파일을 HTML 형식으로 변환시키는 모듈입니다.  
+    EJS는 똑같은 HTML에서 <% %> 를 사용하여 서버의 데이터를 사용하거나 코드를 실행 할 수 있습니다.
+    EJS는 Embedded JavaScript templating의 약어로서,
+    자바스크립트로 HTML 마크업을 생성할 수 있는 간단한 템플릿 언어입니다
+ -->
+<style>
+    table{
+        width: 700px;
+        border:1px solid red;
+    }
+    body{
+        /* font-family 란 글꼴 집합체인데 , 여러개의 글꼴을 모아놓은 것/ 만일 글꼴을 하나만 지정하면 사용자의 컴퓨터에 그 글꼴이 없을때는 기본값으로 표시가 된다.  */
+       /* generic family : 모양이 비슷한 글꼴들의 그룹 */
+        font-family: "돋움", "굴림체";
+    }
+</style>
+<!-- jQuery문을 수행할 수 있도록 해주는 코드 -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- ckeditor에서 얻어온 스타일을 쓰기위해서 적용하는 코드 -->
+<script src="https://cdn.ckeditor.com/4.15.0/standard/ckeditor.js"></script>
+<script>
+    $(function(){
+        CKEDITER.replace('memo'); // memo를 ckediter로 대체한다.
+
+            // 버튼에 이벤트 구현하기 / 아래 button은 array배열로 나열되어 있는 것이니, 아래의 버튼은 (로그인)[0],(가입)[1]로 표현이 가능하다.  
+            $($("button")[0]).click(function(){
+                //  location.href = "이동할 페이지 주소"; 버튼[0]을 누르면, loginform.html 로 이동함.
+                location.href="loginForm.html"; 
+            });
+
+            n=0;//체크된 횟수를 누적시킬 변수
+            $($("button")[1]).click(function(){
+                for(var i=0;i<$(" form input[ name='skill_id' ] ")[i];i++){
+                var ch=$("form input [name='skill_id']")[i];
+                    if(ch.checked){
+                        n++;
+                    }
+                }
+                if(n<1){
+                    alert("적어도 1개이상의 기술을 체크하세요");
+                    return;
+                }
+ // .attr()은 요소(element)의 속성(attribute)의 값을 가져오거나 속성을 추가합니다.
+                $(form).attr({ 
+                    action:"/member/regist",
+                    method:"post"
+                });
+                $(form).submit(); // 서버에 전송
+            });
+    });
+</script>
+</head>
+<body>
+<!--Form태그 ? 전송시 그 범위를 설정할 수 있는 양식의 태그
+id,name 공통점: 문서내의 dom 요소간 구분
+차이점 : id중복허용x ; name은 중복허용 가능 
+서버전송시, 변수 역할을 해주는 것은 오직 name만이 가능하다. -->
+<form>
+    <table>
+        <tr>
+            <td>아이디</td>
+            <td><input type="text" name="uid"></td>
+        </tr>
+        <tr>
+            <td>패스워드</td>
+            <td><input type="password" name="upass"></td>
+        </tr>
+        <tr>
+            <td>이름</td>
+            <td><input type="text" name="uname"></td>
+        </tr>
+        <tr>
+            <td>핸드폰</td>
+            <td><input type="text" name="phone"></td>
+        </tr>
+        <tr>
+            <td>이메일</td>
+            <td>
+                <input type="text" name="email_id">@
+                <select name="email_server">
+                    <option value="naver.com">naver</option>
+                    <option value="google.com">google</option>
+                    <option value="daum.net">daum</option>
+                    <option value="0">직접입력</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>이메일수신</td>
+            <td>
+<!-- 임의의 그룹 내에서는 동시에 하나의 라디오 버튼만 선택할 수 있습니다.
+라디오 버튼은 흔히 원형으로 그려지며, 선택한 경우 속을 채우거나 강조 표시를 합니다 -->
+                예<input type="radio" name="receive" value="yes"/>
+                아니오<input type="radio" name="receive" value="no"/>
+            </td>
+        </tr>
+        <tr>
+            <td>주소</td>
+            <td><input type="text" name="addr"></td>
+        </tr>
+        <tr>
+            <td>가입인사</td>
+            <td>
+<!-- col 속성(attribute)으로 가로 크기를, row 속성으로 세로 크기를 정할 수 있습니다. 
+하지만, 크기 등 모양은 CSS에서 정하는 게 좋습니다. -->
+                <textarea name ="memo" col="30" rows="10" id="memo"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>보유기술</td>
+            <td>
+                <%for(var i=0;i<skillArray.length;i++){%>
+                    <%var skill=skillArray[i];%>
+                    <%=skill.name%> <input type="checkbox" name="skill_id" value="<%=skill.skill_id%>"/>
+                <%}%>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" aling="center">
+                <button type="button">로그인</button>
+                <button type="button">가입</button>
+            </td>
+        </tr>
+    </table>
+</form>  
+</body>
+</html>
