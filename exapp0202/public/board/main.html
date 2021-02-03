@@ -66,7 +66,9 @@ var webSocket; //이 html을 배포한 서버와 연결된 소켓 얻기!!
 class TableContent extends React.Component{
 
     getItem(board_id){
+      return function(){ //무조건 호출방지를 위한 익명함수 및 리턴
         getDetail(board_id);
+      }
     }
 
     render(){
@@ -76,7 +78,7 @@ class TableContent extends React.Component{
             row.push(
                 <tr>
                     <td>{i}</td>
-                    <td onClick={getItem(board.board_id)}>{board.title}</td>
+                    <td onClick={this.getItem(board.board_id)}>{board.title}</td>
                     <td>{board.writer}</td>
                     <td>{board.regdate}</td>
                     <td>{board.hit}</td>
@@ -135,7 +137,7 @@ function regist(){
         data: JSON.stringify(json), 
         contentType:"application/json;charset=utf-8",
         success:function(responseData){
-            console.log(responseData);
+            console.log("서버가 등록후 보낸코드는 ",responseData.resultCode);
         },
         error:function(xhr, result, error){
             console.log(xhr);
@@ -151,7 +153,8 @@ function getList(){
         success:function(responseData){
             //화면 갱신..react로...
             console.log(responseData);
-            ReactDOM.render(<TableContent dataList={responseData}/>, document.getElementById("list-area"));
+            responseData.data;
+            ReactDOM.render(<TableContent dataList={responseData.data}/>, document.getElementById("list-area"));
 
         }
     });
