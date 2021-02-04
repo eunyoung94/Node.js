@@ -20,7 +20,7 @@ function broadCasting(message){
 //목록
 router.get('/', function(request, response, next) {
   var con =mysql.createConnection(conStr);
-  var sql="select * from board order by board_id desc"
+  var sql="select * from board order by board_id desc";
   con.query(sql,function(error,result,fields){ 
     if(error){
         response.writeHead(500,{"Content-Type":"application/json;charset=utf-8"});
@@ -52,6 +52,7 @@ router.get('/:board_id', function(request, response, next) {
         response.end(JSON.stringify(message));
     }else{
       response.writeHead(200,{"Content-Type":"application/json;charset=utf-8"});
+      message.requestCode="detail";
       message.resultCode=200;
       message.data=result;
       response.end(JSON.stringify(message));
@@ -111,11 +112,12 @@ router.put('/', function(request, response, next) {
         response.end(JSON.stringify(message));
     }else{
       response.writeHead(200,{"Content-Type":"application/json;charset=utf-8"});
-      message.requestCode="edit"
+      message.requestCode="update"
       message.resultCode=200;
       message.msg="수정성공";
       message.data=result;
-      response.end(JSON.stringify(message));
+      response.end(JSON.stringify(message));//웹요청에 대한 응답 
+      broadCasting(message); //웹소켓을 이용한 브로드케스팅
     }
     con.end(); //접속끊기
   });
@@ -139,7 +141,9 @@ router.delete('/:board_id', function(request, response, next) {
       message.resultCode=200;
       message.msg="삭제성공";
       message.data=result;
-      response.end(JSON.stringify(message));
+
+      response.end(JSON.stringify(message));//웹요청 응답 
+      broadCasting(message); //웹소켓 브로드 케스팅 
     }
     con.end(); //접속끊기
   });

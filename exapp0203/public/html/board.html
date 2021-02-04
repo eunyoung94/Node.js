@@ -161,7 +161,6 @@ function getList(){
 }
 
 //한건 가져오기 
-//시간 10분 드립니다. 상세보기 처리해주세요~
 function getDetail(board_id){
     $.ajax({
         url:"/board/"+board_id,
@@ -197,10 +196,16 @@ function connect(){
 
         console.log("msg는 ??",msg);
         var json = JSON.parse(msg);
-        console.log("웹소켓을 통해 서버로부터 받은 메시지: ", json.code);
-        if(json.code==1){//누군가에 의해 서버에 등록을 한 상태!!
-            //이 시점에 서버에 새롭게 들어간 데이터를 가져오자!!
-            //비동기로 가져와서, 화면의 일부를 react를 이용하여 출력!!
+
+        console.log("웹소켓을 통해 서버로부터 받은 메시지: ", json.requestCode);
+        
+        if(json.requestCode=="create"){//누군가에 의해 서버에서 글을 쓰면
+            getList();
+        }else if(json.requestCode=="read"){
+
+        }else if(json.requestCode=="update"){//누군가 서버에 글 수정하면
+            getList();
+        }else if(json.requestCode=="delete"){//누군가 서버에 글 삭제하면 
             getList();
         }
     }

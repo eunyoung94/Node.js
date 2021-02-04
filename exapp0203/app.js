@@ -54,7 +54,6 @@ wserver.on("connection",function(socket){
     }else if(json.requestCode=="delete"){
       
     }
-
     //도착한 메세지를 다시 보내기! (echo) , 단 대상은 모든 접속자에게 (브로드케스팅)
     for(var i=0;i<socketArray.length;i++){
       socketArray[i].send(data);
