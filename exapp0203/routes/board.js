@@ -28,11 +28,11 @@ router.get('/', function(request, response, next) {
         message.msg="목록실패";
         response.end(JSON.stringify(message));
     }else{
-      response.writeHead(200,{"Content-Type":"application/json;charset=utf-8"});
+      response.writeHead(200, {"Content-Type":"application/json;charset=utf-8'"});
       message.requestCode="read";
       message.resultCode=200;
       message.data=result;
-      message.msg="한건 가져오기 성공";
+      message.msg="목록가져오기 성공";
       response.end(JSON.stringify(message));
     }
     con.end(); //접속끊기
@@ -51,10 +51,11 @@ router.get('/:board_id', function(request, response, next) {
         message.msg="상세보기실패";
         response.end(JSON.stringify(message));
     }else{
-      response.writeHead(200,{"Content-Type":"application/json;charset=utf-8"});
-      message.requestCode="detail";
+      response.writeHead(200, {"Content-Type":"application/json;charset=utf-8'"});
+      message.requestCode="read";
       message.resultCode=200;
       message.data=result;
+      message.msg="한건 가져오기 성공";
       response.end(JSON.stringify(message));
     }
     con.end(); //접속끊기
@@ -88,6 +89,7 @@ router.post('/', function(request, response, next) {
       message.requestCode="create";//글등록이 발생했음을 알려줌 
       message.resultCode=200;
       message.msg="새로운 글 등록";
+
       broadCasting(message);
     }
     con.end(); //접속끊기
@@ -117,6 +119,7 @@ router.put('/', function(request, response, next) {
       message.msg="수정성공";
       message.data=result;
       response.end(JSON.stringify(message));//웹요청에 대한 응답 
+
       broadCasting(message); //웹소켓을 이용한 브로드케스팅
     }
     con.end(); //접속끊기
@@ -137,11 +140,11 @@ router.delete('/:board_id', function(request, response, next) {
         response.end(JSON.stringify(message));
     }else{
       response.writeHead(200,{"Content-Type":"application/json;charset=utf-8"});
-      message.requestCode="delete"
+      message.requestCode="delete";
       message.resultCode=200;
-      message.msg="삭제성공";
       message.data=result;
-
+      message.msg="삭제하기 성공";
+      
       response.end(JSON.stringify(message));//웹요청 응답 
       broadCasting(message); //웹소켓 브로드 케스팅 
     }
