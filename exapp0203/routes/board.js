@@ -10,7 +10,7 @@ var conStr={
   database:"android"
 };
 
-//모든 클라이언트에게 브로드 케스팅 
+//모든 클라이언트에게 브로드 케스팅하기 
 function broadCasting(message){
   for(var i=0;i<socketArray.length;i++){
     socketArray[i].send(JSON.stringify(message));
@@ -62,7 +62,7 @@ router.get('/:board_id', function(request, response, next) {
   });
 });
 
-//등록
+//등록하기
 router.post('/', function(request, response, next) {
   var con =mysql.createConnection(conStr);
   var sql="insert into board(title,writer,content)values(?,?,?)";
