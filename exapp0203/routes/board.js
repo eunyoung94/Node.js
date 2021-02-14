@@ -54,7 +54,7 @@ router.get('/:board_id', function(request, response, next) {
       response.writeHead(200, {"Content-Type":"application/json;charset=utf-8'"});
       message.requestCode="read";
       message.resultCode=200;
-      message.data=result;
+      message.data=result; //
       message.msg="한건 가져오기 성공";
       response.end(JSON.stringify(message));
     }
