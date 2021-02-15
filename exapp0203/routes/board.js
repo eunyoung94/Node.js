@@ -35,7 +35,7 @@ router.get('/', function(request, response, next) {
       message.msg="목록가져오기 성공";
       response.end(JSON.stringify(message));
     }
-    con.end(); //접속끊기
+    con.end(); //접속끊기!
   });
 });
 
@@ -85,7 +85,7 @@ router.post('/', function(request, response, next) {
       message.msg="등록성공";
       response.end(JSON.stringify(message));
 
-      //새로운 글이 등록되었음을 접속한 모든 클라이언트에게 브로드 케스팅을 하자 
+      //새로운 글이 등록되었음을 접속한 모든 클라이언트에게 브로드 케스팅을 하자 !!!!
       message.requestCode="create";//글등록이 발생했음을 알려줌 
       message.resultCode=200;
       message.msg="새로운 글 등록";
