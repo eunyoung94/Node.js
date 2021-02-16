@@ -35,7 +35,7 @@ router.get('/', function(request, response, next) {
       message.msg="목록가져오기 성공";
       response.end(JSON.stringify(message));
     }
-    con.end(); //접속끊기!
+    con.end(); //접속끊기!!
   });
 });
 
